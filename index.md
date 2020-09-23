@@ -35,7 +35,7 @@ Worries for later.
 
 For now we set up the server rack in our living room:
 
-![nice rack](/images/server_rack.jpg)
+![nice rack](/static/images/server_rack.jpg)
 
 The bottom machine is going the main one for a while.  
 The 2 machines lying on their side are going to be dismantled at some point.  
@@ -47,8 +47,8 @@ I like Hyper-V.
 Now this machine has 2 onboard ethernet ports, which allows me to host a VM with a firewall to section off my closet from the rest of the house.  
 Here's a rough idea of what the network will look like:
 
-![home_net](/images/home_net.jpg)
+![home_net](/static/images/home_net.jpg)
 
 So, on the bottom server, I'll be creating 2 virtual switches, conencted to the 2 ethernet ports.  
-The first virtual switch, will be connected to teh home network, and I will specifically disable access to to for the physical machine hosting it.
+The first virtual switch, will be connected to the home network, and I will specifically disable access to to for the physical machine hosting it.
 (Something Hyper-V virtual switches allow for)  
