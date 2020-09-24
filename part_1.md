@@ -1,4 +1,4 @@
-# Part 1: the first three
+# Part 1: The first three
 
 So, on the bottom server, I'll be creating 2 virtual switches, conencted to the 2 ethernet ports.  
 The first virtual switch, will be connected to the home network, and I will specifically disable access to to for the physical machine hosting it.  

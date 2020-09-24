@@ -62,6 +62,8 @@ Here's a rough idea of what the network will look like:
 
 The actual work will be covered in a multi part blog.  
 
-<div class="next">
-[On to part 1 >](/part_1.html)
+<div id="BottomNav">
+	<div id="next">
+		<a href="/part_1.html">Part 1: The first three ><a>
+	</div>
 </div>
