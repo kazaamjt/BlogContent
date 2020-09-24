@@ -63,6 +63,7 @@ Here's a rough idea of what the network will look like:
 The actual work will be covered in a multi part blog.  
 
 <div id="BottomNav">
+	<div id="prev">	</div>
 	<div id="next">
 		<a href="/part_1.html">Part 1: The first three ><a>
 	</div>
