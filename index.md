@@ -1,13 +1,12 @@
 # Between Cloud and Cables
 
-## What is this?
+## What's this all about then?
 
 This is a blog. Of sorts.  
 
 In this blog I aim to document how I set up my private cloud at home,
 both for my own sake, so I can look up what the hell I was thinking at the time,
 and maybe someone else could find something usefull in here.  
-
 
 ## The Goals
 
@@ -18,19 +17,18 @@ I'll also use this system as a testbed for any software I'm working on myself.
 
 Some of the things I'm gonna try to get up and going:
 
-- A searchable library of all my PDF's. I have a LOT of technical books in PDF form.  
+- A searchable library of all my PDF's. I have a LOT of ebooks on various technical subjects.  
 - VMs that can host GPU-bound tasks. For example, my significant other does a lot of wacky stuff with AI's
 but having her laptop train models overnight is not ideal.  
-- CI/CD. I could really use some self hosted CI/CD for several of my projects.  
+- CI/CD. I could really use some self hosted CI/CD for several of my projects...  
 - A GIT server?  
-- Accesible from anywhere by VPN.  
-
+- VPN services, so I can access the cluster from anywhere.  
 
 ## The Plan
 
-The plan is simple, create a frankenstein cluster of machines using any hardware I could get my hands on.  
+The plan is simple, create a frankenstein cluster of machines using any hardware I can get my hands on.  
 Step one is providing space for all these different machine.  
-Luckily my roommate had a server-rack in a garage somewhere. (Who doesn't?)  
+Luckily my roommate had a server-rack in a garage somewhere. (Who fucking doesn't?)  
 
 Now all of the hardware I have, are old desktops.  
 So at some point, the plan is to mount the hardware from those machines on panels,
@@ -39,9 +37,7 @@ Worries for later.
 
 For now we set up the server rack in our living room:
 
-<div class="contentimg">
-	<img src="/static/images/server_rack.jpg" alt="Nice rack">
-</div>
+![Nice rack](images/server_rack.jpg "After about 2 hours of trying and busting our ass, we managed to get this server in to our 2nd floor appartment.")
 
 The bottom machine is going the main one for a while.  
 The 2 machines lying on their side are going to be dismantled at some point.  
@@ -52,19 +48,10 @@ The the bottom machine is going to run Hyper-V server, for the sole reason that 
 This machine has 2 onboard ethernet ports, which allows me to host a VM with a firewall to section off my closet from the rest of the house.  
 Here's a rough idea of what the network will look like:
 
-
-<div class="contentimg">
-	<img src="/static/images/home_net.png" alt="Home network">
-</div>
-
+![Home network plan](images/home_net.png "If it's not clear, the physical machine does not have direct access to the home network.")
 
 ## The execution
 
 The actual work will be covered in a multi part blog.  
 
-<div id="BottomNav">
-	<div id="prev">&nbsp;</div>
-	<div id="next">
-		<a href="/part_1.html">Part 1: The first three ></a>
-	</div>
-</div>
+[> Part 1: The first three](part_1.md)
