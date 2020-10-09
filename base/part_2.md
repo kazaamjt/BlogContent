@@ -148,5 +148,5 @@ On my Win10 VM this freed ~24Gb of space... Yikes!
 And that's it for part 2!  
 In the next part we'll be moving the VMs to their new home and expanding our centralized authentication/authorization.  
 
-[< Part 1: The first three](base/part_1.md)
-[> Part 3: The Great Migration](base/part_1.md)
+[< Part 1: The first three](part_1.md)
+[> Part 3: The Great Migration](part_3.md)

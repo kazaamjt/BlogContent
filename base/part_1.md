@@ -139,4 +139,4 @@ As this part took the better part of an evening, the rest will be for part 2.
 In part 2 we'll be setting up a Windows Authentication domain, aka configuring `Active Directory`.  
 
 [< Index: What this is all about](index.md)
-[> Part 1: The first three](base/part_1.md)
+[> Part 2: Setting up Windows Active Directory](part_2.md)
