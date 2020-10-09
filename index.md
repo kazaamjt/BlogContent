@@ -1,6 +1,6 @@
 # Between Cloud and Cables
 
-## What's this all about then?
+## What this is all about
 
 This is a blog. Of sorts.  
 
@@ -53,5 +53,8 @@ Here's a rough idea of what the network will look like:
 ## The execution
 
 The actual work will be covered in a multi part blog.  
+As a quick note, I'd like to add that there will be a bunch of passwords that need to be set and saved somewhere.  
+Instead of using the same password over and over, I recommend using [Keepass](https://keepass.info/)
+to store the passwords of local admins and credentials of service accounts.  
 
-[> Part 1: The first three](part_1.md)
+[> Part 1: The first three](base/part_1.md)

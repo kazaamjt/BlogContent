@@ -17,11 +17,13 @@ Other version, such as Windows 10 Home will not suffice.
 
 Now, since Hyper-V Server 2019 does not come with a GUI, complicating the installation and configuration of the machines,  
 I'll be building the machines on my own desktop instead and use Hyper-V export to move them to the server.  
+Before created any machines, I created 2 virtual switches, 1 external (called external) and 1 internal (called backbone).  
+These names will come in to play later.  
 
 ## Installing and configuring the Windows Server VM
 
-I'm not going in to detail on how to create a VM or installing Windows.  
-These are trivial tasks outside the scope of this blog.  
+I'm not going in to detail on how to create a VM or how to install Windows.  
+These are trivial tasks outside of the scope of this blog.  
 
 I will provide you with the specs of the machine:  
 
@@ -45,9 +47,9 @@ For this we can use `sconfig`.
 A quick checklist of things to do:
 
 - Change the Name
-- Update the server
 - Opt in/out of Windows Telemetry
 - Change the network settings
+- Update the server
 
 Finaly, when thsese are done, let's enable SSH.  
 Open Powershell and check what the server is called:
@@ -98,10 +100,12 @@ Log in and change this, walk through the first time setup.
 NOTES:
 
 Be sure to set the primary DNS to your Windows Servers' address.  
-If your pfSense, like mine, is behind antoehr Router/NAT, be sure to turn off `Block RFC1918 Private Networks`.  
+If your pfSense, like mine, is behind another Router/NAT, be sure to turn off `Block RFC1918 Private Networks`.  
 
 Finish up, by reloading and checking for updates.  
-Optionally, change the pfSense theme to darkmode. (system>General Setup>webConfigurator)  
+Then lock the console and, optionally, enable ssh access, because currently anyone with access to the VM Connect could reconfigure it.
+(System > Advanced > Admin Access > Console Options)  
+Optionally, change the pfSense theme to darkmode. (system > General Setup > webConfigurator)  
 
 And that's it for now!  
 
@@ -118,9 +122,10 @@ I might beef up those specs too if need be.
 If you want the isntall to hurry up, you might want to beef it up.  
 This install takes a while.  
 
-After installing, I set the IP address, enabled remote desktop and started updating.  
-Once you enable remote desktop, VM Connect should be able to use "enhanced session mode", which allwos for copy pasting files and text.  
-This took another long while, so you might want to find something to do, to kill some time.  
+After installing, I set the IP address, enabled remote desktop, changed the computers name, and started updating.  
+Once you enable remote desktop, VM Connect should be able to use "enhanced session mode", which allows for copy pasting of files and text.  
+
+Updating took another long while, so you might want to find something to do, to kill some time.  
 Maybe set a cup of coffee. Or grow a beard. That sorta thing.  
 After that I also installed the following:
 
@@ -128,4 +133,10 @@ After that I also installed the following:
 - [Windows RSAT](https://docs.microsoft.com/en-us/windows-server/remote/remote-server-administration-tools)
 - [vscode](https://code.visualstudio.com/)
 
-This part took the better part of an evening so, the rest will be for part 2.
+I'll go in to detail on which RSAT tools as they come up.  
+
+As this part took the better part of an evening, the rest will be for part 2.  
+In part 2 we'll be setting up a Windows Authentication domain, aka configuring `Active Directory`.  
+
+[< Index: What this is all about](index.md)
+[> Part 1: The first three](base/part_1.md)
