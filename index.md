@@ -30,14 +30,13 @@ The plan is simple, create a frankenstein cluster of machines using any hardware
 Step one is providing space for all these different machine.  
 Luckily my roommate had a server-rack in a garage somewhere. (Who fucking doesn't?)  
 
-Now all of the hardware I have, are old desktops.  
-So at some point, the plan is to mount the hardware from those machines on panels,
-that nicely slide in to the rack.  
+Now all of the hardware I have, are old desktops, laptops and tiny computers.  
+So at some point, the plan is to mount the hardware from those machines on panels that nicely slide in to the rack.  
 Worries for later.  
 
 For now we set up the server rack in our living room:
 
-![Nice rack](/images/server_rack.jpg "After about 2 hours of trying, we managed to get this rack in to our 2nd floor apartment.")
+![Nice rack](/images/server_rack.jpg "After about 2 hours of trying, we managed to get this rack in to our 2nd floor apartment in the center of Brussels.")
 
 The bottom machine is going the main one for a while.  
 It's a decent machine, [but it was not without its share of problems.](/misc/I219-V.md)  
