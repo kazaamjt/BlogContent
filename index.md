@@ -10,7 +10,7 @@ and maybe someone else could find something usefull in here.
 
 ## The Goals
 
-The primary goal really is just for me (and my roommates) to muck about ofcourse.  
+The primary goal really is just for me (and my roommates) to muck about ofcourse.  ![pfSense setup](/images/pfSense-first-time.png "The pfsense first-time setup.")
 I have a lot of hardware lying around catching dust.  
 That being said, I do have certain projects I'd like to have running on this, and services it should provide.  
 I'll also use this system as a testbed for any software I'm working on myself.  
@@ -37,18 +37,19 @@ Worries for later.
 
 For now we set up the server rack in our living room:
 
-![Nice rack](images/server_rack.jpg "After about 2 hours of trying and busting our ass, we managed to get this server in to our 2nd floor appartment.")
+![Nice rack](/images/server_rack.jpg "After about 2 hours of trying and busting our ass, we managed to get this server in to our 2nd floor appartment.")
 
 The bottom machine is going the main one for a while.  
+It's a decent machine, [but it was not without its share of problems.](/misc/I219-V.md)  
 The 2 machines lying on their side are going to be dismantled at some point.  
 
-At any rate, I've been going on aboout the hardware too much already...  
+At any rate, I've been going on about the hardware too much already...  
 The the bottom machine is going to run Hyper-V server, for the sole reason that I like Hyper-V.  
 
 This machine has 2 onboard ethernet ports, which allows me to host a VM with a firewall to section off my closet from the rest of the house.  
 Here's a rough idea of what the network will look like:
 
-![Home network plan](images/home_net.png "If it's not clear, the physical machine does not have direct access to the home network.")
+![Home network plan](/images/home_net.png "If it's not clear, the physical machine does not have direct access to the home network.")
 
 ## The execution
 
@@ -57,4 +58,4 @@ As a quick note, I'd like to add that there will be a bunch of passwords that ne
 Instead of using the same password over and over, I recommend using [Keepass](https://keepass.info/)
 to store the passwords of local admins and credentials of service accounts.  
 
-[Part 1: The first three >](base/part_1.md)
+[Part 1: The first three >](/base/part_1.md)

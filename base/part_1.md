@@ -95,7 +95,7 @@ I aslo double-checked if the ssh on my windows Server was working. It was, and a
 The default logins is admin/pfsense.  
 Log in and change this, walk through the first time setup.  
 
-![pfSense setup](images/pfSense-first-time.png "The pfsense first-time setup.")
+![pfSense setup](/images/pfSense-first-time.png "The pfsense first-time setup.")
 
 NOTES:
 
@@ -132,10 +132,11 @@ After that I also installed the following:
 - [Firefox (Developer Edition)](https://www.mozilla.org/en-US/firefox/developer/)
 - [Windows RSAT](https://docs.microsoft.com/en-us/windows-server/remote/remote-server-administration-tools)
 - [vscode](https://code.visualstudio.com/)
+- [Keepass](https://keepass.info/)
 
 I'll go in to detail on which RSAT tools as they come up.  
 
 As this part took the better part of an evening, the rest will be for part 2.  
 In part 2 we'll be setting up a Windows Authentication domain, aka configuring `Active Directory`.  
 
-[< Index: What this is all about](index.md) | [Part 2: Setting up Windows Active Directory >](part_2.md)
+[< Index: What this is all about](/index.md) | [Part 2: Setting up Windows Active Directory >](/base/part_2.md)
