@@ -64,15 +64,15 @@ ls
 ```
 
 This will change your current directory to the `AD:` drive and cd in to the `DC=yourdomain,DC=local` directory.
-Finaly, ls will show you the objects in the current directory.  
+Finally, ls will show you the objects in the current directory.  
 You can navigate the `AD:` drive this way, much like you would the `C:` or `D:` drives using the objects distinguished names.  
-For example we can look at the premade groups and users in the `Users` directory by simply typing `ls .\CN=Users`.  
+For example we can look at the pre-made groups and users in the `Users` directory by simply typing `ls .\CN=Users`.  
 
 NOTE: PowerShell autocomplete for paths works in this drive, but it will append a trailing `\` which you're going to have to remove.  
 
-Now that we got this litle but of PowerShell navigation out ofthe way, let's start setting up our structure.  
-Active directory uses *directory-like* objects called Organizational Units, or OU's for short.  
-So we're going to use these OU's to structure our directories in a way we might structure files.  
+Now that we got this little bit of PowerShell navigation out of the way, let's start setting up our directories.  
+Active directory uses *directory-like* objects called Organizational Units, or OU's for short to organize various things.  
+So we're going to use these OU's to structure our AD Objects in similar way to how we might use directories to organize files.  
 I'm going to use the `AGDLP` philosophy as the basis for structuring my Active Directory. ([More on AGDLP here](https://en.wikipedia.org/wiki/AGDLP))  
 
 This will give us a directory structure, that looks something like this:  
@@ -102,14 +102,14 @@ New-ADOrganizationalUnit -Name "DomainLocal"
 NOTE: Make sure you perform these under the `OU=yourdomain,DC=yourdomain,DC=local` path.  
 
 Next we'll set up a user account for ourselves and an `Root Admins` role/group.  
-The `Root Admins` group will basicly have root access to everything.  
+The `Root Admins` group will basically have root access to everything.  
 As we go along we'll be setting up roles and permissions as they come up.  
 
-First, we'll read a password from stdin and store it as a securestring.  
-Be sure to execute this line on it's own, to prevent from pasting your copy-paste buffer in to the password variable!  
+First, we'll read a password from stdin and store it as a `SecureString`.  
+Be sure to execute this line on it's own, to prevent pasting the rest of the command in to the password variable!  
 Then we'll cd in to the newly create Users OU and create our user.  
 Next we'll cd in to `Groups/Global` and create the `Root Admins` Group.  
-Finaly, we'll add our new user to the `Root Admins` group and make `Root Admins` a member of multiple Active Directory Admin groups.  
+Finally, we'll add our new user to the `Root Admins` group and make `Root Admins` a member of multiple Active Directory Admin groups.  
 
 ```Powershell
 $Password = Read-Host -AsSecureString
@@ -141,7 +141,7 @@ Then, once you close those dialogs, you will be prompted to restart the machine.
 Go ahead and do so.  
 
 The final part is setting up the machine to your preference and doing some cleanup.  
-For example I rpefer using the full screen startup. (I know, I'm weird. One of the weirdos that actually liked Windows 8.1)  
+For example I prefer using the full screen startup. (I know, I'm weird. One of the weirdos that actually liked Windows 8.1)  
 Lastly I used `disk cleanup` to clean up a bunch of things.  
 On my Win10 VM this freed ~24Gb of space... Yikes!  
 

@@ -6,18 +6,18 @@ This is a blog. Of sorts.
 
 In this blog I aim to document how I set up my private cloud at home,
 both for my own sake, so I can look up what the hell I was thinking at the time,
-and maybe someone else could find something usefull in here.  
+and maybe someone else could find something useful in here.  
 
 ## The Goals
 
-The primary goal really is just for me (and my roommates) to muck about ofcourse.  ![pfSense setup](/images/pfSense-first-time.png "The pfsense first-time setup.")
+The primary goal really is just for me (and my roommates) to muck about of course.  ![pfSense setup](/images/pfSense-first-time.png "The pfSense first-time setup.")
 I have a lot of hardware lying around catching dust.  
 That being said, I do have certain projects I'd like to have running on this, and services it should provide.  
 I'll also use this system as a testbed for any software I'm working on myself.  
 
 Some of the things I'm gonna try to get up and going:
 
-- A searchable library of all my PDF's. I have a LOT of ebooks on various technical subjects.  
+- A searchable library of all my PDFs. I have a LOT of ebooks on various technical subjects.  
 - VMs that can host GPU-bound tasks. For example, my significant other does a lot of wacky stuff with AI's
 but having her laptop train models overnight is not ideal.  
 - CI/CD. I could really use some self hosted CI/CD for several of my projects...  
@@ -37,7 +37,7 @@ Worries for later.
 
 For now we set up the server rack in our living room:
 
-![Nice rack](/images/server_rack.jpg "After about 2 hours of trying and busting our ass, we managed to get this server in to our 2nd floor appartment.")
+![Nice rack](/images/server_rack.jpg "After about 2 hours of trying, we managed to get this rack in to our 2nd floor apartment.")
 
 The bottom machine is going the main one for a while.  
 It's a decent machine, [but it was not without its share of problems.](/misc/I219-V.md)  

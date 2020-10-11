@@ -1,6 +1,6 @@
 # Part 1: The first three
 
-So, on the bottom server, I'll be creating 2 virtual switches, conencted to the 2 ethernet ports.  
+So, on the bottom server, I'll be creating 2 virtual switches, connected to the 2 ethernet ports.  
 The first virtual switch, will be connected to the home network, and I will specifically disable access to to for the physical machine hosting it.  
 (Something Hyper-V virtual switches allows for.)  
 
@@ -34,7 +34,7 @@ Network: 1 connector, external
 
 This might seem like it's not a lot, but this should be plenty to get us going.  
 While this machine is installing, I'll also create a pfSense VM.  
-Again no detailed walkthrough of the installation, but here are the specs:  
+Again no detailed walk-through of the installation, but here are the specs:  
 
 CPU: 1 core  
 Memory: 1024 static  
@@ -51,7 +51,7 @@ A quick checklist of things to do:
 - Change the network settings
 - Update the server
 
-Finaly, when thsese are done, let's enable SSH.  
+When these are done, let's enable SSH.  
 Open Powershell and check what the server is called:
 
 ```Powershell
@@ -74,14 +74,14 @@ Get-NetFirewallRule -Name *ssh*
 New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
 ```
 
-Finaly, I created a new Virtual Switch (type = Internal, name = BackBone).  
+Finally, I created a new Virtual Switch (type = Internal, name = BackBone).  
 I switched the WinServer network adapter to this switch at this point.  
 
 ## Installing and configuring the pfSense box
 
 The installation of pfSense is pretty straight-forward these days, so nothing much to note here.  
 Some Operating systems can are secure boot capable, but pfSense is currently not one of those.  
-After the instalation is done, be sure to remove the virtual cd-drive and change the boot order to boot from disk first.  
+After the installation is done, be sure to remove the virtual cd-drive and change the boot order to boot from disk first.  
 
 Now, the first thing I'm going to do is change the IP addresses on both network adapters.  
 For now I'm not using any IPv6, but I will come back to that later.  
@@ -90,12 +90,12 @@ This is going to be a modern cloud system damnit!
 After changing some IP information I checked to make sure my server could reach the Internet.  
 Then I set a static IP on the virtual adapter (BackBone) on my host computer so I could reach the internal address of the pfSense box.  
 (pfSense is internal 192.168.1.254 in my case)
-I aslo double-checked if the ssh on my windows Server was working. It was, and all is right with the world.  
+I also double-checked if the ssh on my windows Server was working. It was, and all was right with the world.  
 
 The default logins is admin/pfsense.  
 Log in and change this, walk through the first time setup.  
 
-![pfSense setup](/images/pfSense-first-time.png "The pfsense first-time setup.")
+![pfSense setup](/images/pfSense-first-time.png "The pfSense first-time setup.")
 
 NOTES:
 
@@ -105,7 +105,7 @@ If your pfSense, like mine, is behind another Router/NAT, be sure to turn off `B
 Finish up, by reloading and checking for updates.  
 Then lock the console and, optionally, enable ssh access, because currently anyone with access to the VM Connect could reconfigure it.
 (System > Advanced > Admin Access > Console Options)  
-Optionally, change the pfSense theme to darkmode. (system > General Setup > webConfigurator)  
+Optionally, change the pfSense theme to dark mode. (system > General Setup > webConfigurator)  
 
 And that's it for now!  
 
@@ -119,7 +119,7 @@ HDD: 60GB
 Network: 1 connector, external  
 
 I might beef up those specs too if need be.  
-If you want the isntall to hurry up, you might want to beef it up.  
+If you want the install to hurry up, you might want to beef it up.  
 This install takes a while.  
 
 After installing, I set the IP address, enabled remote desktop, changed the computers name, and started updating.  
