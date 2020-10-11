@@ -10,7 +10,7 @@ and maybe someone else could find something useful in here.
 
 ## The Goals
 
-The primary goal really is just for me (and my roommates) to muck about of course.  ![pfSense setup](/images/pfSense-first-time.png "The pfSense first-time setup.")
+The primary goal really is just for me (and my roommates) to muck about of course.  
 I have a lot of hardware lying around catching dust.  
 That being said, I do have certain projects I'd like to have running on this, and services it should provide.  
 I'll also use this system as a testbed for any software I'm working on myself.  
