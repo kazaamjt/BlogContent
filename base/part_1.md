@@ -130,7 +130,7 @@ Maybe set a cup of coffee. Or grow a beard. That sorta thing.
 After that I also installed the following:
 
 - [Firefox (Developer Edition)](https://www.mozilla.org/en-US/firefox/developer/)
-- [Windows RSAT](https://docs.microsoft.com/en-us/windows-server/remote/remote-server-administration-tools)
+- [Windows RSAT Tools](https://docs.microsoft.com/en-us/windows-server/remote/remote-server-administration-tools)
 - [vscode](https://code.visualstudio.com/)
 - [Keepass](https://keepass.info/)
 

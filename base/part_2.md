@@ -5,15 +5,15 @@ I promise, we'll get to cool Linux stuff soon!
 But for now, the dredge work needs to be done.  
 And because I'm very familiar with Windows AD and Hyper-V that's what I'm sticking to for now.  
 
-Anyway, I degress, setting up `Active Directory` will allow for centralized authentication and authorization.  
+Anyway, I digress, setting up `Active Directory` will allow for centralized authentication and authorization.  
 The goal is for people to be able to log in to *most-if-not-all* Services using a single account.  
 
 ## Installing and configuring Active Directory
 
 So as I mentioned, we'll be using `Active Directory` for authentication and authorization.  
-I'll be refering to `Active Directory` mostly as `AD` from here on out.  
+I'll be referring to `Active Directory` mostly as `AD` from here on out.  
 Since our server is "headless", we'll be using Powershell to do so.  
-As a headsup, I'll mostly be using PowerShell throughout this blog, when configuring Windows Stuff.  
+As a heads-up, I'll mostly be using PowerShell throughout this blog, when configuring Windows Stuff.  
 
 First, let's install `AD-DS - Active Directory Domain Services`:  
 
@@ -24,10 +24,10 @@ Install-WindowsFeature AD-Domain-Services
 This will install the `AD domain Services` and the PowerShell administration tools so we can configure AD using Powershell.  
 You can use `Get-WindowsFeature AD*,RSAT-AD*` to double-check that everything is installed.  
 
-Since our `Domain Controller` or `DC` for short, will also function as our DNS server,
+Since our `Domain Controller`, or `DC` for short, will also function as our DNS server,
 I'm setting it's address to `127.0.0.1`. This is considered good practice.  
 
-Next, we'll set up a Forest and a Domain and isntall the `DNS Services`:  
+Next, we'll set up a Forest and a Domain and install the `DNS Services`:  
 
 ```Powershell
 Install-ADDSForest -DomainName "yourdomain.local" -InstallDns
@@ -43,7 +43,7 @@ When it's done, it might also kick you from your ssh session, this, again, is no
 Give it a couple of moments to reconfigure itself before trying to ssh again.  
 
 Now that we have a domain, let's add a DNS forwarder.  
-I'm going to forward DNS requests to `8.8.8.8`, but you're free to forward to your prefered public DNS.  
+I'm going to forward DNS requests to `8.8.8.8`, but you're free to forward to your preferred public DNS.  
 
 ```Powershell
 Add-DnsServerForwarder -IPAddress 8.8.8.8
@@ -77,14 +77,16 @@ I'm going to use the `AGDLP` philosophy as the basis for structuring my Active D
 
 This will give us a directory structure, that looks something like this:  
 
-OU=yourdomain,DC=yourdomain,DC=local  
-  ├─OU=Users  
-  ├─OU=Groups  
-  │  ├─OU=Global  
-  │  └─OU=DomainLocal  
-  └─OU=ServiceAccounts  
+```txt
+OU=yourdomain,DC=yourdomain,DC=local
+    ├── OU=Users
+    ├── OU=Groups
+    │    ├── OU=Global
+    │    └── OU=DomainLocal
+    └── OU=ServiceAccounts
+```
 
-Using PowerShell we can create OU's using the `New-ADOrganizationalUnit` cmdlet, much like we would use mkdir:  
+Using PowerShell we can create OU's using the `New-ADOrganizationalUnit` cmdlet, much like we would use `mkdir`:  
 
 ```Powershell
 New-ADOrganizationalUnit -Name "yourdomain"
