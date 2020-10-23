@@ -20,7 +20,8 @@ I also added a bunch of firewall rules to traffic coming from the `backbone-netw
 
 ![New firewall Rules](/images/Firewall_rules_backbone.png "Added firewall rules.")
 
-These will allow me, or someone else, to attach their laptop to the network and try to fix things, in case the VPN breaks.  
+Or for the lazy; allow all traffic from `backbone-network` to `172.16.1.1`.  
+These will allow me, or someone else, to attach their laptop to the network and try to fix things, in case the VPN breaks and allow me to add the Hyper-V server to the domain.  
 
 Anyway, back to the task at hand; moving the virtual machines.  
 To do this, I have temporarily attached my own computer to the backbone network.  
@@ -67,7 +68,87 @@ Once this is done, we can start up the machines:
 Get-VM | Start-VM
 ```
 
+Now that the machines have been migrated, we can add the Hyper-V server.  
+This is not strictly required, but can be usefull.  
+You can do this using `sconfig`.  
+Before restarting, set the start and stop actions of the firewall to `save` and `startifrunning`.  
+pfSense can take a while to start, so instead of rebooting, we'll have Hyper-V save its state instead.  
+
+```Powershell
+Set-VM EdgeFirewall -AutomaticStopAction Save -AutomaticStartAction StartIfRunning
+```
+
 This will start up all the machines on the given machine.  
 Lastly we'll set up a VPN using active directory as authentication.  
 
-## Setting up OpenVPN
+## Setting up AD authentication on pfSense
+
+First, we'll set up an account for our pfsense firewall, in active directory:  
+
+```Powershell
+$Password = Read-Host -AsSecureString
+
+New-ADUser -AccountPassword $Password -CannotChangePassword $true -Name "pfsense" -Enabled $true
+```
+
+I did this under the `ServiceAccounts` organizational unit.  
+Then I also created a `pfSense adminsitrator` group, under groups > global:  
+
+```Powershell
+New-ADGroup "pfSense administrators" -GroupCategory Security -GroupScope Global
+Add-ADPrincipalGroupMembership -Identity you -MemberOf "pfsense administrators"
+```
+
+Next we'll set up authentication on pfSense.  
+In the pfsense Web Interface, go to `System` > `User Manager` > `Authentication Servers` > `Add`.  
+Then fill in the following:
+
+```txt
+Descriptive name:           Active Directory (LDAP)
+Type:                       LDAP
+
+Hostname or IP address      WinServer1.yourdomain.local
+Search scope Level          Entire Subtree
+       Base DN              DC=yourdomain,DC=local
+
+Authentication containers   OU=yourdomain,DC=yourdomain,DC=local
+
+Bind credentials            pfsense@servercademy.local    *****************
+Initial Template            Microsoft AD
+RFC 2307 Groups             [ ]  LDAP Server uses RFC 2307 style group membership
+```
+
+Save this, then check if it works, by going to `System` > `User Manager` > `Settings`,
+set the `Authentication Server` to `Active Directory (LDAP)`.  
+Then, press `Save & Test`.  
+If everything is correct, you should get 3 OK's and a list of OU's.  
+
+Now go to `System` > `User Manager` > `groups` and create a new group:  
+
+```txt
+Group name                  pfSense Administrators
+Scope                       Remote
+```
+
+Add them to members of the admin group.  
+Save and then open the newly created group, and under assigned priviliges, press add.  
+Then add all privileges, EXCEPT for `User - Config: Deny Config Write`.  
+If everything is set up correctly, you should be able to log in to the firewall with your own account now.  
+
+## OpenVPN
+
+The last thing we're going to do, is set up OpenVPN so we can reach our system from the outside.  
+Got to `VPN` > `OpenVPN` > `Wizard`, and follow the wizard.  
+It's that easy.  
+For the connection subnet, I used `172.16.10.0/28`.  
+And for remote, I just threw in `172.16.0.0/16`.  
+
+Then, under `System` > `Package Manager` > `Available packages`, I installed the `openvpn-client-export` package.  
+This adds a gui that allows for easy OpenVPN config exporting.  
+I then exported a Windows 10 installer, disconnected my desktop from the backbone network and put it back in the home network.  
+Using my own user, I was able to connect to the VPN and ssh in to several machines, as well as opening the pfSense GUI. (Be carefull with deploying changes to the firwall remotely)  
+
+Furthermore, I forwarded all traffic from my Public IP to this pfSense box, making my system internet capable.  
+Changing the remote address in the OpenVPN config from `192.168.0.100` to my public IP and then using my phone, allowed me to verify that this was also up and running.  
+
+[< Part 2: Setting up Windows Active Directory](/base/part_2.md)
