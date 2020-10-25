@@ -1,4 +1,4 @@
-# Part 1: The first three
+# Basics Part 1: The first three
 
 So, on the bottom server, I'll be creating 2 virtual switches, connected to the 2 ethernet ports.  
 The first virtual switch, will be connected to the home network, and I will specifically disable access to to for the physical machine hosting it.  
@@ -139,4 +139,4 @@ I'll go in to detail on which RSAT tools as they come up.
 As this part took the better part of an evening, the rest will be for part 2.  
 In part 2 we'll be setting up a Windows Authentication domain, aka configuring `Active Directory`.  
 
-[< Index: What this is all about](/index.md) | [Part 2: Setting up Windows Active Directory >](/base/part_2.md)
+[< Index: What this is all about](/index.md) | [Basics Part 2: Setting up Windows Active Directory >](/basics/part_2.md)

@@ -1,4 +1,4 @@
-# Part 3: The Great Migration
+# Basics Part 3: The Great Migration
 
 In part 3 of this series, we're going to be migrating our Virtual Machines from our own desktop,
 to the target host.  
@@ -10,7 +10,7 @@ Others will use `192.168.0.0/24`.
 Also, Some network devices like to use `192.168.1.0/24` as their default network and will set up a dhcp server in case of some routers or firewalls.  
 
 To alleviate these issues I redrew my network diagram a little bit.  
-Instead of using `192.168.0.0/16` subnets, I switched to using `172.16.0.0/16`
+Instead of using `192.168.0.0/16` subnets, I switched to using `172.16.0.0/16`.  
 While I was at it I decided to add a bit of network segmentation.  
 
 So, here's the new layout:  
@@ -109,7 +109,7 @@ Type:                       LDAP
 
 Hostname or IP address      WinServer1.yourdomain.local
 Search scope Level          Entire Subtree
-       Base DN              DC=yourdomain,DC=local
+Search Base DN              DC=yourdomain,DC=local
 
 Authentication containers   OU=yourdomain,DC=yourdomain,DC=local
 
@@ -120,7 +120,7 @@ RFC 2307 Groups             [ ]  LDAP Server uses RFC 2307 style group membershi
 
 Save this, then check if it works, by going to `System` > `User Manager` > `Settings`,
 set the `Authentication Server` to `Active Directory (LDAP)`.  
-Then, press `Save & Test`.  
+Then, press `Save&Test`.  
 If everything is correct, you should get 3 OK's and a list of OU's.  
 
 Now go to `System` > `User Manager` > `groups` and create a new group:  
@@ -141,7 +141,7 @@ The last thing we're going to do, is set up OpenVPN so we can reach our system f
 Got to `VPN` > `OpenVPN` > `Wizard`, and follow the wizard.  
 It's that easy.  
 For the connection subnet, I used `172.16.10.0/28`.  
-And for remote, I just threw in `172.16.0.0/16`.  
+And for the remote subnet, I used in `172.16.0.0/16`.  
 
 Then, under `System` > `Package Manager` > `Available packages`, I installed the `openvpn-client-export` package.  
 This adds a gui that allows for easy OpenVPN config exporting.  
@@ -151,4 +151,24 @@ Using my own user, I was able to connect to the VPN and ssh in to several machin
 Furthermore, I forwarded all traffic from my Public IP to this pfSense box, making my system internet capable.  
 Changing the remote address in the OpenVPN config from `192.168.0.100` to my public IP and then using my phone, allowed me to verify that this was also up and running.  
 
-[< Part 2: Setting up Windows Active Directory](/base/part_2.md)
+## Enter Linux
+
+Finishing up the basics, we'll set up a linux machine.  
+This machine will form the basis of our automation and orchestration system.  
+
+Personally I will be using Debian, but you can use your prefered flavor of Linux.  
+There are many good options out there.  
+Keep in mind that commands and configurations might differ from OS to OS, so your milage may vary.  
+
+I'll be using my vpn and the Windows 10 client I set up to create the virtual machine and install Debian on it.  
+The installation is pretty straightforward, but you have to look out for a couple of things:  
+In the VM's security settings, set the boot template to `Microsoft UEFI Certificate Authority`, otherwise the iso will not be able to boot.  
+We currently don't have DHCP set up, so you'll have to manually set the IP address.  
+Also, I only installed the `Standard System Utilities` and the `SSH Server`. Everything else, we don't need.  
+
+## What's next
+
+Now that we're done with the basic setup, it's time to move on to the real fun stuff.  
+In the next chapter we'll move on to some automation.  
+
+[< Basics Part 2: Setting up Windows Active Directory](/basics/part_2.md) | [Automation Part 1: Setting up >](/orchestration/part_1.md)

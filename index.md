@@ -57,4 +57,4 @@ As a quick note, I'd like to add that there will be a bunch of passwords that ne
 Instead of using the same password over and over, I recommend using [Keepass](https://keepass.info/)
 to store the passwords of local admins and credentials of service accounts.  
 
-[Part 1: The first three >](/base/part_1.md)
+[Basics Part 1: The first three >](/basics/part_1.md)

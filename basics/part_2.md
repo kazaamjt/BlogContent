@@ -1,4 +1,4 @@
-# Part 2: Setting up Windows Active Directory
+# Basics Part 2: Setting up Windows Active Directory
 
 At this point, I've been using quite a bit of Windows stuff and no Linux in sight.  
 I promise, we'll get to cool Linux stuff soon!  
@@ -150,4 +150,4 @@ On my Win10 VM this freed ~24Gb of space... Yikes!
 And that's it for part 2!  
 In the next part we'll be moving the VMs to their new home and expanding our centralized authentication/authorization.  
 
-[< Part 1: The first three](/base/part_1.md) | [Part 3: The Great Migration >](/base/part_3.md)
+[< Basics Part 1: The first three](/basics/part_1.md) | [Basics Part 3: The Great Migration >](/basics/part_3.md)
