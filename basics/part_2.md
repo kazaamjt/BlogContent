@@ -44,9 +44,11 @@ Give it a couple of moments to reconfigure itself before trying to ssh again.
 
 Now that we have a domain, let's add a DNS forwarder.  
 I'm going to forward DNS requests to `8.8.8.8`, but you're free to forward to your preferred public DNS.  
+I'll also set up a reverse lookup zone.  
 
 ```Powershell
 Add-DnsServerForwarder -IPAddress 8.8.8.8
+Add-DnsServerPrimaryZone -DynamicUpdate Secure -ReplicationScope Domain -NetworkId 172.16.0.0/16
 ```
 
 That's it for our base configuration.  
