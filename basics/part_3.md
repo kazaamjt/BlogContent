@@ -170,6 +170,12 @@ Finishing up the basics, we'll set up a linux machine.
 This machine will form the basis of our automation and orchestration system.  
 So I called it `AutomationStation`.  
 
+Let's give it a dns record:
+
+```Powershell
+Add-DnsServerResourceRecordA -Name "AutomationStation" -IPv4Address 172.16.1.2 -ZoneName yourdomain.local -CreatePtr
+```
+
 Personally I will be using Debian, but you can use your preferred flavor of Linux.  
 There are many good options out there; CentOS, Arch or Ubuntu, to name just a few.  
 Keep in mind that commands and configurations might differ from OS to OS, so your milage may vary.  
@@ -204,7 +210,7 @@ apt-get install --assume-yes hyperv-daemons sudo packagekit policykit-1 realmd n
 ```
 
 The last line installs the needed binaries and the `hyperv-daemons`, which enables some nice Hyper-V specific stuff,
-like Hyper-V being able to read its IP-addresses.  
+like Hyper-V being able to read the VM's IP-addresses.  
 
 Next well set up some things and actually join the domain.  
 Go over these commands line by line and fill any prompts that come up:  
@@ -235,15 +241,10 @@ Finally we update the initramfs, reload the systemd daemons and reboot.
 You should now be able to ssh using your Windows account and even `sudo`.  
 
 The ssh command will look like this: `you@yourdomain.local@172.16.1.2`.  
-We'll finish up with by adding a DNS record for our new machine:  
-
-```Powershell
-Add-DnsServerResourceRecordA -Name "AutomationStation" -IPv4Address 172.16.1.2 -ZoneName yourdomain.local -CreatePtr
-```
 
 ## What's next
 
 Now that we're done with the basic setup, it's time to move on to the real fun stuff.  
 In the next chapter we'll move on to some automation.  
 
-[< Basics Part 2: Setting up Windows Active Directory](/basics/part_2.md) | [Automation Part 1: Automated Deployment >](/Automation/part_1.md)
+[< Basics Part 2: Setting up Windows Active Directory](/basics/part_2.md) | [Automation Part 1: The first steps >](/Automation/part_1.md)
