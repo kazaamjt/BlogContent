@@ -73,7 +73,7 @@ function New-AutoDeployVM {
         # Wether to use dynamic ram or not
         [switch]$DynamicRam,
 
-        # Specifies Startup Memory. 
+        # Specifies Startup Memory.
         [int64]$StartUpRam=1024MB,
 
         # Specifies the Minimum amount of dynamic.
@@ -215,7 +215,7 @@ function New-AutoDeployVM {
         # Wether to use dynamic ram or not
         [switch]$DynamicRam,
 
-        # Specifies Startup Memory. 
+        # Specifies Startup Memory.
         [int64]$StartUpRam=1024MB,
 
         # Specifies the Minimum amount of dynamic.
