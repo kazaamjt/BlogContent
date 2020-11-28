@@ -28,7 +28,7 @@ but having her laptop train models overnight is not ideal.
 
 The plan is simple, create a frankenstein cluster of machines using any hardware I can get my hands on.  
 Step one is providing space for all these different machine.  
-Luckily my roommate had a server-rack in a garage somewhere. (Who fucking doesn't?)  
+Luckily my roommate had a server-rack in a garage somewhere. (Who doesn't?)  
 
 Now all of the hardware I have, are old desktops, laptops and tiny computers.  
 So at some point, the plan is to mount the hardware from those machines on panels that nicely slide in to the rack.  
@@ -38,12 +38,12 @@ For now we set up the server rack in our living room:
 
 ![Nice rack](/images/server_rack.jpg "After about 2 hours of trying, we managed to get this rack in to our 2nd floor apartment in the center of Brussels.")
 
-The bottom machine is going the main one for a while.  
+The bottom machine is going to be our main one for a while.  
 It's a decent machine, [but it was not without its share of problems.](/misc/I219-V.md)  
 The 2 machines lying on their side are going to be dismantled at some point.  
 
 At any rate, I've been going on about the hardware too much already...  
-The the bottom machine is going to run Hyper-V server, for the sole reason that I like Hyper-V.  
+The the bottom machine is going to run Windows Server 2019, for the sole reason that I like Hyper-V and Active Directory.  
 
 This machine has 2 onboard ethernet ports, which allows me to host a VM with a firewall to section off my closet from the rest of the house.  
 Here's a rough idea of what the network will look like:
@@ -57,4 +57,4 @@ As a quick note, I'd like to add that there will be a bunch of passwords that ne
 Instead of using the same password over and over, I recommend using [Keepass](https://keepass.info/)
 to store the passwords of local admins and credentials of service accounts.  
 
-[Basics Part 1: The first three >](/basics/part_1.md)
+[Basics Part 1: The first one >](/basics/part_1.md)
