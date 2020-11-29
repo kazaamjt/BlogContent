@@ -144,10 +144,18 @@ With the VM created, we can install and configure pfsense
 
 The installation of pfSense is pretty straight-forward these days, so nothing much to note here.  
 Some Operating systems are secure boot capable on Hyper-V, but pfSense is currently not one of those.  
-Debian for example is.  
 After the installation is done, be sure to remove the virtual cd-drive and change the boot order to boot from disk first.  
 
 Now, the first thing I'm going to do is change the IP addresses on both network adapters.  
 For now I'm not using any IPv6, but I might come back to change that later.  
 
-After changing some IP information check to make sure the server could reach the Internet.  
+Next I go through the inital set up of pdsense.  
+I set the ethernet adapter connected to `Admin LAN` to `172.16.1.245`.  
+After you did this, you can set this the default gateway for the server.  
+Check to make sure the server could reach the Internet.  
+
+Once this is done, you can sue firefox on the server to surf to `https://172.16.1.254`.  
+The default logins is admin/pfsense.  
+Log in and change this, walk through the first time setup.  
+
+![pfSense setup](/images/pfSense-first-time.png "The pfSense first-time setup.")
