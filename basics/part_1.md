@@ -1,4 +1,4 @@
-# Basics Part 1: The first one
+# Basics Part 1: The first machine
 
 The first machine, or Base-1 as I've named it, will be an important machine in our cluster.  
 I'll be running Windows Server 2019 on it.  
@@ -154,8 +154,21 @@ I set the ethernet adapter connected to `Admin LAN` to `172.16.1.245`.
 After you did this, you can set this the default gateway for the server.  
 Check to make sure the server could reach the Internet.  
 
-Once this is done, you can sue firefox on the server to surf to `https://172.16.1.254`.  
+Once this is done, you can use firefox on the server to surf to `https://172.16.1.254`.  
 The default logins is admin/pfsense.  
 Log in and change this, walk through the first time setup.  
 
 ![pfSense setup](/images/pfSense-first-time.png "The pfSense first-time setup.")
+
+Be sure to set the primary DNS to your Windows Servers' address.  
+If your pfSense, like mine, is behind another Router/NAT, be sure to turn off Block RFC1918 Private Networks.  
+
+Finish up, by reloading and checking for updates.  
+Then lock the console and, optionally, enable ssh access, because currently anyone with access to the VM Connect could reconfigure it. (System > Advanced > Admin Access > Console Options)  
+Optionally, change the pfSense theme to dark mode. (system > General Setup > webConfigurator)  
+
+We'll get to more configuration of pfsense.  
+For now, we'll wrap up part 1 here.  
+In part 2 we'll build further on this foundaton by setting up `Active Directory` for use in centralized authentication and authorization.  
+
+[< Index: What this is all about](/index.md) | [Basics Part 2: Setting up Centralized authentication >](/basics/part_2.md)

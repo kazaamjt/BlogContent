@@ -1,4 +1,4 @@
-# Basics Part 2: Setting up Windows Active Directory
+# Basics Part 2: Setting up Centralized authentication
 
 At this point, I've been using quite a bit of Windows stuff and no Linux in sight.  
 I promise, we'll get to cool Linux stuff soon!  
@@ -6,13 +6,13 @@ But for now, the dredge work needs to be done.
 And because I'm very familiar with Windows AD and Hyper-V that's what I'm sticking to for now.  
 
 Anyway, I digress, setting up `Active Directory` will allow for centralized authentication and authorization.  
-The goal is for people to be able to log in to *most-if-not-all* Services using a single account.  
+The goal is for people to be able to log in to *most-if-not-all* Services using a single set of crendentials.  
 
 ## Installing and configuring Active Directory
 
 So as I mentioned, we'll be using `Active Directory` for authentication and authorization.  
 I'll be referring to `Active Directory` mostly as `AD` from here on out.  
-Since our server is "headless", we'll be using Powershell to do so.  
+I'll be using Powershell to do this.  
 As a heads-up, I'll mostly be using PowerShell throughout this blog, when configuring Windows Stuff.  
 
 First, let's install `AD-DS - Active Directory Domain Services`:  
@@ -22,10 +22,7 @@ Install-WindowsFeature AD-Domain-Services
 ```
 
 This will install the `AD domain Services` and the PowerShell administration tools so we can configure AD using Powershell.  
-You can use `Get-WindowsFeature AD*,RSAT-AD*` to double-check that everything is installed.  
-
-Since our `Domain Controller`, or `DC` for short, will also function as our DNS server,
-I'm setting it's address to `127.0.0.1`. This is considered good practice.  
+You can use `Get-WindowsFeature *AD*` to double-check that everything is installed.  
 
 Next, we'll set up a Forest and a Domain and install the `DNS Services`:  
 
@@ -39,16 +36,27 @@ I recommend reading the Powershell docs for commands, they are well structured a
 This will throw a warning or 2 about not allowing weaker cryptography algorithms and about not being able to create a delegation for the DNS Server.  
 You can safely ignore these warnings.  
 Other warnings might come up and I do recommend reading those if they are not related to the aforementioned warnings.  
-When it's done, it might also kick you from your ssh session, this, again, is normal.  
+If you are using ssh, when it's done, it might also kick you from your ssh session, this, again, is normal.  
 Give it a couple of moments to reconfigure itself before trying to ssh again.  
 
-Now that we have a domain, let's add a DNS forwarder.  
-I'm going to forward DNS requests to `8.8.8.8`, but you're free to forward to your preferred public DNS.  
-I'll also set up a reverse lookup zone.  
+upon checking DNS forwarders, `8.8.8.8` has been added for me.  
+You're free to forward to your preferred public DNS.  
+for example, adding 8.8.8.8 to the forwarders can eb done like this:
 
 ```Powershell
 Add-DnsServerForwarder -IPAddress 8.8.8.8
+```
+
+I'll also set up reverse lookup zones.  
+
+```Powershell
 Add-DnsServerPrimaryZone -DynamicUpdate Secure -ReplicationScope Domain -NetworkId 172.16.0.0/16
+```
+
+Finaly, let's add a dns record for our firewalls management address:
+
+```Powershell
+Add-DnsServerResourceRecordA -Name firewall-1 -CreatePtr -AllowUpdateAny -IPv4Address 172.16.1.254 -ZoneName ServerCademy.local
 ```
 
 That's it for our base configuration.  
@@ -81,11 +89,11 @@ This will give us a directory structure, that looks something like this:
 
 ```txt
 OU=yourdomain,DC=yourdomain,DC=local
-    ├── OU=Users
-    ├── OU=Groups
-    │    ├── OU=Global
-    │    └── OU=DomainLocal
-    └── OU=ServiceAccounts
+ ├── OU=Users
+ ├── OU=Groups
+ │    ├── OU=Global
+ │    └── OU=DomainLocal
+ └── OU=ServiceAccounts
 ```
 
 Using PowerShell we can create OU's using the `New-ADOrganizationalUnit` cmdlet, much like we would use `mkdir`:  
@@ -105,7 +113,7 @@ New-ADOrganizationalUnit -Name "DomainLocal"
 
 NOTE: Make sure you perform these under the `OU=yourdomain,DC=yourdomain,DC=local` path.  
 
-Next we'll set up a user account for ourselves and an `Root Admins` role/group.  
+Next we'll set up a user account for ourselves and a `Root Admins` role/group.  
 The `Root Admins` group will basically have root access to everything.  
 As we go along we'll be setting up roles and permissions as they come up.  
 
@@ -122,34 +130,16 @@ cd .\OU=Global
 New-ADGroup -Name "Root Admins" -SamAccountName RootAdmins -GroupCategory Security -GroupScope Global
 
 cd ..\..\OU=Users
-New-ADUser -AccountPassword $Password -DisplayName "you" -Enabled $True -Name "you" -PasswordNeverExpires $True
+New-ADUser -AccountPassword $Password -DisplayName "you" -Enabled $True -Name "you" -PasswordNeverExpires $True --SamAccountName "you"
 
 Add-ADPrincipalGroupMembership -Identity you -MemberOf RootAdmins
-Add-ADPrincipalGroupMembership `
-    -Identity RootAdmins `
+Add-ADPrincipalGroupMembership -Identity RootAdmins `
     -MemberOf Administrators, "Schema Admins", "Enterprise Admins", "Domain Admins", "Group Policy Creator Owners"
 ```
 
-If you did everything correctly, we can now use our new user to ssh to the Windows server.  
+If you did everything correctly, we can now use our new user to log in to the Windows server.  
+With the basis of centralized authentication set up, let's immediatly put it to use.  
 
-## Domain joining a windows machine
+The next part we'll set up Active Directory as a pfsense authentication backend and set up OpenVPN, so we can remotly configure the cluster.  
 
-As a final step for part 2, we're going to domain join our Windows 10 machine
-and then log in to it with our new user and configure it to our liking.  
-First, change the DNS server to 192.168.1.1, then change the domain to `yourdomain.local`.  
-To change the domain go to `Control Panel > System and Security > System` and then select `Change settings > Change... > Domain`
-
-This will prompt you for credentials.  
-Use your new credentials, `DomainName\UserName`.  
-Then, once you close those dialogs, you will be prompted to restart the machine.  
-Go ahead and do so.  
-
-The final part is setting up the machine to your preference and doing some cleanup.  
-For example I prefer using the full screen startup. (I know, I'm weird. One of the weirdos that actually liked Windows 8.1)  
-Lastly I used `disk cleanup` to clean up a bunch of things.  
-On my Win10 VM this freed ~24Gb of space... Yikes!  
-
-And that's it for part 2!  
-In the next part we'll be moving the VMs to their new home and expanding our centralized authentication/authorization.  
-
-[< Basics Part 1: The first three](/basics/part_1.md) | [Basics Part 3: The Great Migration >](/basics/part_3.md)
+[< Basics Part 1: The first machine](/basics/part_1.md) | [Basics Part 3: Putting SSO to the test >](/basics/part_3.md)
