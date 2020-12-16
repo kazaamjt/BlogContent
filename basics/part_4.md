@@ -267,7 +267,7 @@ Finaly, let's use our newly created Powershell module to create 3 Virtual Machin
 
 ```Powershell
 New-AutoDeployVM -Name AutomationStation -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1048MB
-New-AutoDeployVM -Name AdminPostgres -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1048MB
+New-AutoDeployVM -Name AdminPostgres -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1024MB
 New-AutoDeployVM -Name DebianBase -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1024MB
 ```
 
