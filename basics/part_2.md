@@ -127,13 +127,13 @@ Finally, we'll add our new user to the `Root Admins` group and make `Root Admins
 $Password = Read-Host -AsSecureString
 
 cd .\OU=Global
-New-ADGroup -Name "Root Admins" -SamAccountName RootAdmins -GroupCategory Security -GroupScope Global
+New-ADGroup -Name "Root Admins" -GroupCategory Security -GroupScope Global
 
 cd ..\..\OU=Users
 New-ADUser -AccountPassword $Password -DisplayName "you" -Enabled $True -Name "you" -PasswordNeverExpires $True --SamAccountName "you"
 
-Add-ADPrincipalGroupMembership -Identity you -MemberOf RootAdmins
-Add-ADPrincipalGroupMembership -Identity RootAdmins `
+Add-ADPrincipalGroupMembership -Identity you -MemberOf "Root Admins"
+Add-ADPrincipalGroupMembership -Identity "Root Admins" `
     -MemberOf Administrators, "Schema Admins", "Enterprise Admins", "Domain Admins", "Group Policy Creator Owners"
 ```
 
