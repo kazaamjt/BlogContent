@@ -17,7 +17,7 @@ If you set up the DHCP server correctly and the deploy script, the hostname as w
 Next is choosing a password for the root user.  
 I choose something easy, as it'll be temporary.  
 Once I can SSH in to the machine, I'm changing it to a default password I keep in my Keepass database.  
-The same goes for our first user's password, ofcourse.  
+The same goes for our first user's password, of course.  
 
 For our first user, I choose to stick with `debian`.  
 Naming the default user after the OS is a common practise in the cloud world.  
@@ -89,13 +89,18 @@ rm /var/lib/dhcp/*
 reboot
 ```
 
+Note how I used the `su -` command.  
+This will change our current user to the `root` user.  
+All the commands in this chapter will be executed as `root`.  
+Keep this in mind if something doesn't work.  
+
 Now the machine should be back to using it's `MAC Address` as its dhcp client-id and will have the correctly assigned IP.  
 Next, let's set up some basics on our machines.  
 As an aside, I'm not doing this on the DebianBase machine, we'll come back to that machine later.  
 
 So, let's install some stuff and then join the machine to our `AD Domain`:  
 
-```Powershell
+```bash
 apt-get update
 apt-get dist-upgrade --assume-yes
 
@@ -103,7 +108,7 @@ apt-get install --assume-yes hyperv-daemons
 apt-get install --assume-yes packagekit policykit-1 realmd ntp adcli sssd samba-common-bin sssd-tools sudo
 ```
 
-You'll get a prompt for the last `apt-get` command about `WINS`. You can safely answer no.  
+You might get a prompt for the last `apt-get` command about `WINS`. You can safely answer no.  
 
 Now, let's add this machine to the domain, set the login and sudo groups and finaly reboot for good measure:  
 
@@ -116,9 +121,8 @@ realm permit -g DL.Allow.Linux.Login@yourdomain.local
 
 systemctl start sssd
 echo "session required pam_mkhomedir.so skel=/etc/skel/ umask=0022" | tee -a /etc/pam.d/common-session
-echo "%DL.Allow.Linux.Sudo@ServerCademy.local ALL=(ALL) ALL" | tee -a /etc/sudoers.d/ad_admins
-
-update-initramfs -u
+echo "debian ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers.d/ad_admins
+echo "%DL.Allow.Linux.Sudo@yourdomain.local ALL=(ALL) ALL" | tee -a /etc/sudoers.d/ad_admins
 
 systemctl daemon-reload
 reboot
@@ -131,4 +135,96 @@ ssh you@yourdomain@AutomationStation.yourdomain.local
 sudo apt-get update
 ```
 
-In my case, it was a great success!  
+In my case, it was great success!  
+Finaly, we'll configure the DebianBase VM and prep it for use.  
+
+## A Debian Base System VHD
+
+So what we're going to do, is set up a VHD, so when we create new VMs we just copy the VHD and the system is easily and quickly installed.  
+First, let's do our installations like last time:  
+
+```bash
+apt-get update
+apt-get dist-upgrade --assume-yes
+
+apt-get install --assume-yes hyperv-daemons
+apt-get install --assume-yes packagekit policykit-1 realmd ntp adcli sssd samba-common-bin sssd-tools sudo
+```
+
+Next, let's configure some small things:
+
+```bash
+echo "session required pam_mkhomedir.so skel=/etc/skel/ umask=0022" | tee -a /etc/pam.d/common-session
+echo "debian ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers.d/ad_admins
+echo "%DL.Allow.Linux.Sudo@yourdomain.local ALL=(ALL) ALL" | tee -a /etc/sudoers.d/ad_admins
+```
+
+After this the machine has the needed basic configuration to be cloned.  
+But of course we want to also handle the SSO.  
+Due to each machine having to register seperately, we'll handle this on our first boot.  
+
+I'll be putting this script under `/opt/boot/first_boot.sh`.  
+So let's have at it:  
+
+```bash
+#!/usr/bin/env bash
+sleep 10
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+apt-get update
+apt-get dist-upgrade --assume-yes
+
+echo "YourSuperSecretPassword" | realm join --verbose yourdomain.local --user=LinuxJoin --computer-ou='OU=Linux,DC=yourdomain,DC=local'
+realm permit --verbose -g DL.Allow.Linux.Login@yourdomain.local
+
+systemctl start sssd
+systemctl daemon-reload
+
+crontab -r
+```
+
+You can create script using an editor like `nano` or `vim`.  
+
+Be sure not to skip those env variables as they are important.  
+`crontab` does not pass them by fefault, it passes a limited set instead.  
+If they are not in your script, the `realm` command will not work.  
+
+We use echo to pass the `install` users it's password to register the machine.  
+Then we add the linux login group to our login system.  
+Finaly, we remove the `crontab`.  
+If you want, you can add `rm -f /opt/boot/first_boot.sh` at the end to make sure the script get deleted.  
+
+Speaking of `crontab`, `crontab` will make sure our script runs at startup.  
+Invoke `crontab -e` and add `@reboot /opt/boot/first_boot.sh > /opt/boot/first_boot.log` at the end.  
+The `> /opt/boot/first_boot.log` part of the command will redirect any output to the file specified.  
+This way we can try to diagnose any problems.  
+
+Finaly, we'll change the permissions on the script and delete our dhcp info before we shut this machine down:  
+
+```bash
+chmod 755 /opt/boot/first_boot.sh
+rm /var/lib/dhcp/*
+shutdown -h now
+```
+
+Before moving on, copy the machines VHD.  
+
+```bash
+#!/usr/bin/env bash
+sleep 5
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+apt-get update
+apt-get dist-upgrade --assume-yes
+
+systemctl enable sssd
+
+echo "dO0OjKojjZcpashk7XVT" | realm join --verbose ServerCademy.local --user=LinuxJoin --computer-ou='OU=Linux,DC=ServerCademy,DC=local'
+realm permit --verbose -g DL.Allow.Linux.Login@ServerCademy.local
+
+systemctl start sssd
+systemctl daemon-reload
+
+crontab -r
+```
