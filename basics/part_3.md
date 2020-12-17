@@ -137,4 +137,4 @@ Part 3 was short but quite heavy and, if you're anything like me, you'll spend a
 
 In part 4 we'll set up several extra Windows Server Roles that will comei n handy for automation, and we'll set up 2 linux VMs.  
 
-[< Basics Part 2: Setting up Centralized authentication](/basics/part_2.md) | [Basics Part 4: A peek at Linux >](/basics/part_4.md)
+[< Basics Part 2: Setting up Centralized authentication](/basics/part_2.md) | [Basics Part 4: Automating Virtual machine deployment >](/basics/part_4.md)
