@@ -277,7 +277,7 @@ The third will be used as a basis for later debian based VMs.
 
 I'll go over the installation of Debian quickly in the next part.  
 
-[< Basics Part 3: Putting SSO to the test](/basics/part_3.md) | [Basics Part 5: Dipping our toes in Linux >](/basics/part_4.md)
+[< Basics Part 3: Putting SSO to the test](/basics/part_3.md) | [Basics Part 5: Dipping our toes in Linux >](/basics/part_5.md)
 
 ```Powershell
 function New-AutoDeployVM {
