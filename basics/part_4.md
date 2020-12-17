@@ -263,19 +263,21 @@ Remove-AutoDeployVM -Name test -VMHost Base-1
 Be sure to double check that all resources are properly cleaned up.  
 The full module can be seen at the end, after the navigation buttons.  
 
-Finaly, let's use our newly created Powershell module to create 2 Virtual Machines that we'll use at a later point in time.  
+Finaly, let's use our newly created Powershell module to create 3 Virtual Machines that we'll use at a later point in time.  
 
 ```Powershell
-New-AutoDeployVM -Name AutomationStation -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 2048MB
-New-AutoDeployVM -Name AdminPostgres -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 2048MB
+New-AutoDeployVM -Name AutomationStation -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1048MB
+New-AutoDeployVM -Name AdminPostgres -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1024MB
+New-AutoDeployVM -Name DebianBase -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddress 172.16.1.0 -StartUpRam 1024MB
 ```
 
 The first machine, will be used to help with automated deployment and it will host our orchestrator in the future.  
 The second machine will host Postgres services, that can be used by various services as a database backend.  
+The third will be used as a basis for later debian based VMs.  
 
 I'll go over the installation of Debian quickly in the next part.  
 
-[< Basics Part 3: Putting SSO to the test](/basics/part_3.md)
+[< Basics Part 3: Putting SSO to the test](/basics/part_3.md) | [Basics Part 5: Dipping our toes in Linux >](/basics/part_4.md)
 
 ```Powershell
 function New-AutoDeployVM {

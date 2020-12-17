@@ -124,6 +124,14 @@ Using my own user, I was able to connect to the VPN and ssh in to both machines,
 Furthermore, I forwarded all traffic from my Public IP to this pfSense box, making my system internet capable.  
 Changing the remote address in the OpenVPN config from `192.168.0.100` to my public IP and then using my phone, allowed me to verify that this was also up and running.  
 
+Let's quickly make sure DNS is also working correctly.  
+Try using nslookup while connected to your VPN.  
+If you notice the wrong DNS server is cotnacted, try adding this to your VPN config:  
+
+```txt
+setenv opt block-outside-dns
+```
+
 That was it for part 3.  
 Part 3 was short but quite heavy and, if you're anything like me, you'll spend a bit of time debugging getting the authentication working properly.  
 
