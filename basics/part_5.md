@@ -140,7 +140,7 @@ Finaly, we'll configure the DebianBase VM and prep it for use.
 
 ## A Debian Base System VHD
 
-So what we're going to do, is set up a VHD, so when we create new VMs we just copy the VHD and the system is easily and quickly installed.  
+So what we're going to do, is set up a base VHD, so when we create new VMs we just copy the VHD and the system is easily and quickly installed.  
 First, let's do our installations like last time:  
 
 ```bash
@@ -157,6 +157,7 @@ Next, let's configure some small things:
 echo "session required pam_mkhomedir.so skel=/etc/skel/ umask=0022" | tee -a /etc/pam.d/common-session
 echo "debian ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers.d/ad_admins
 echo "%DL.Allow.Linux.Sudo@yourdomain.local ALL=(ALL) ALL" | tee -a /etc/sudoers.d/ad_admins
+mkdir /opt/boot
 ```
 
 After this the machine has the needed basic configuration to be cloned.  
@@ -172,6 +173,7 @@ sleep 10
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 apt-get update
+apt-get upgrade --assume-yes
 apt-get dist-upgrade --assume-yes
 
 echo "YourSuperSecretPassword" | realm join --verbose yourdomain.local --user=LinuxJoin --computer-ou='OU=Linux,DC=yourdomain,DC=local'
@@ -197,7 +199,7 @@ If you want, you can add `rm -f /opt/boot/first_boot.sh` at the end to make sure
 Speaking of `crontab`, `crontab` will make sure our script runs at startup.  
 Invoke `crontab -e` and add `@reboot /opt/boot/first_boot.sh > /opt/boot/first_boot.log` at the end.  
 The `> /opt/boot/first_boot.log` part of the command will redirect any output to the file specified.  
-This way we can try to diagnose any problems.  
+This way we can try to diagnose if any problems occur.  
 
 Finaly, we'll change the permissions on the script and delete our dhcp info before we shut this machine down:  
 
@@ -207,24 +209,8 @@ rm /var/lib/dhcp/*
 shutdown -h now
 ```
 
-Before moving on, copy the machines VHD.  
+Before moving on, copy the VHD.  
+You can start the machine again after copying the VHD to inspect everything went the way it should have.  
+In the next part we're going to sysprep this image.  
 
-```bash
-#!/usr/bin/env bash
-sleep 5
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-
-apt-get update
-apt-get dist-upgrade --assume-yes
-
-systemctl enable sssd
-
-echo "dO0OjKojjZcpashk7XVT" | realm join --verbose ServerCademy.local --user=LinuxJoin --computer-ou='OU=Linux,DC=ServerCademy,DC=local'
-realm permit --verbose -g DL.Allow.Linux.Login@ServerCademy.local
-
-systemctl start sssd
-systemctl daemon-reload
-
-crontab -r
-```
+[< Basics Part 4: A peek at Linux](/basics/part_4.md)
