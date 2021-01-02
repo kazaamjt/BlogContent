@@ -145,6 +145,7 @@ First, let's do our installations like last time:
 
 ```bash
 apt-get update
+apt-get upgrade --assume-yes
 apt-get dist-upgrade --assume-yes
 
 apt-get install --assume-yes hyperv-daemons
@@ -176,7 +177,8 @@ apt-get update
 apt-get upgrade --assume-yes
 apt-get dist-upgrade --assume-yes
 
-echo "YourSuperSecretPassword" | realm join --verbose yourdomain.local --user=LinuxJoin --computer-ou='OU=Linux,DC=yourdomain,DC=local'
+hostnamectl set-hostname $(host $(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}') | awk '{print substr($5, 1, length($5)-1)}')
+echo -e "YourSuperSecretPassword" | realm join --verbose yourdomain.local --user=LinuxJoin --computer-ou='OU=Linux,DC=yourdomain,DC=local'
 realm permit --verbose -g DL.Allow.Linux.Login@yourdomain.local
 
 systemctl start sssd
@@ -205,8 +207,8 @@ Finaly, we'll change the permissions on the script and delete our dhcp info befo
 
 ```bash
 chmod 755 /opt/boot/first_boot.sh
+echo "send dhcp-client-identifier = hardware;" >> /etc/dhcp/dhclient.conf
 rm /var/lib/dhcp/*
-rm /etc/hostname
 shutdown -h now
 ```
 
