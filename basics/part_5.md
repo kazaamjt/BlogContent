@@ -67,11 +67,11 @@ New-ADOrganizationalUnit -Name "Linux"
 At this point, I do hope you have access to a GUI, because using powershell to give the account the right to domain join on a specific `OU` is an absolute PAIN.  
 So I'll be showing it with a GUI, because it's easier to follow and less error-prone.  
 
-![Delegate 1](/images/part_5/delegate_1.png)
-![Delegate 2](/images/part_5/delegate_2.png)
-![Delegate 3](/images/part_5/delegate_3.png)
-![Delegate 4](/images/part_5/delegate_4.png)
-![Delegate 5](/images/part_5/delegate_5.png)
+![Delegate 1](/images/part_5/delegate_1.png)  
+![Delegate 2](/images/part_5/delegate_2.png)  
+![Delegate 3](/images/part_5/delegate_3.png)  
+![Delegate 4](/images/part_5/delegate_4.png)  
+![Delegate 5](/images/part_5/delegate_5.png)  
 
 Having done this will allow us to use this account to domain join our Linux machines in the next part.  
 
@@ -206,6 +206,7 @@ Finaly, we'll change the permissions on the script and delete our dhcp info befo
 ```bash
 chmod 755 /opt/boot/first_boot.sh
 rm /var/lib/dhcp/*
+rm /etc/hostname
 shutdown -h now
 ```
 
