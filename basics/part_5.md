@@ -193,14 +193,17 @@ Be sure not to skip those env variables as they are important.
 `crontab` does not pass them by fefault, it passes a limited set instead.  
 If they are not in your script, the `realm` command will not work.  
 
+The `hostnamectl set-hostname` command sets the hostname.  
+In thise case I'm using IP route to get our own IP, then use the IP in reverse dns lookup to get the name of this machine.  
+
 We use echo to pass the `install` users it's password to register the machine.  
 Then we add the linux login group to our login system.  
 Finaly, we remove the `crontab`.  
 If you want, you can add `rm -f /opt/boot/first_boot.sh` at the end to make sure the script get deleted.  
 
 Speaking of `crontab`, `crontab` will make sure our script runs at startup.  
-Invoke `crontab -e` and add `@reboot /opt/boot/first_boot.sh > /opt/boot/first_boot.log` at the end.  
-The `> /opt/boot/first_boot.log` part of the command will redirect any output to the file specified.  
+Invoke `crontab -e` and add `@reboot /opt/boot/first_boot.sh > /opt/boot/first_boot.log 2>&1` at the end.  
+The `> /opt/boot/first_boot.log 2>&1` part of the command will redirect any output to the file specified.  
 This way we can try to diagnose if any problems occur.  
 
 Finaly, we'll change the permissions on the script and delete our dhcp info before we shut this machine down:  
@@ -213,7 +216,7 @@ shutdown -h now
 ```
 
 Before moving on, copy the VHD.  
-You can start the machine again after copying the VHD to inspect everything went the way it should have.  
-In the next part we're going to sysprep this image.  
+I stored it under `F:\images\debian\DebianBase.vhdx`.  
+You can start the machine again after copying the VHD to make sure the script executed correctly.  
 
-[< Basics Part 4: A peek at Linux](/basics/part_4.md)
+[< Basics Part 4: A peek at Linux](/basics/part_4.md)[Basics Part 6: Automating Linux deployment >](/basics/part_6.md)

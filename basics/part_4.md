@@ -186,7 +186,7 @@ New-AutoDeployVM -Name test -VMHost base-1 -SwitchName "Admin Lan" -SubnetAddres
 I called this machine test, because we're using it to verify that our command is working.  
 For example, the default iso location in my first attempt was wrong.  
 Start the machine to verify it works.  
-Using DHCP the machine get an IP address assigned, and the hostname should also be automaticaly set correctly.  
+Using DHCP the machine gets an IP address assigned, and the hostname should also be automaticaly set correctly.  
 I stopped the installation at this point.  
 
 Now let's create a function that will clean up virtual machines:  
